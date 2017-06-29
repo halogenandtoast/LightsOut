@@ -1,0 +1,25 @@
+name: LightsOut
+version: '0.1.0.0'
+category: Game
+author: Matthew Mongeau
+maintainer: halogenandtoast@gmail.com
+copyright: 2017 Matthew Mongeau
+license: MIT
+github: halogenandtoast/LightsOut
+extra-source-files:
+- README.md
+executables:
+  LightsOut:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - base
+    - brick
+    - vty
+    - matrix
+    - vector
+    - split
