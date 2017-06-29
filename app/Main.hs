@@ -29,12 +29,12 @@ allClear board = all (== Unlit) (toList board)
 drawUI :: Game -> [Widget Name]
 drawUI g = if gameOver g
               then [ C.center $ str "Good job! Press q to exit!" ]
-              else [ C.center $ drawGrid g]
+              else [ C.center $ drawGrid g ]
 
 drawGrid :: Game -> Widget Name
-drawGrid (Game board position _ _) = vBox rows
+drawGrid (Game board position _ level) = vBox rows
   where
-    rows = [hBox $ cellsInRow r | r <- [1..5]]
+    rows = [hBox $ cellsInRow r | r <- [1..5]] ++ [hBox [write $ "Level " ++ show (level + 1)]]
     cellsInRow r = [cellAt r c | c <- [1..5]]
     cellAt r c = if position == Pos c r
                     then drawSelected $ getCell r c
@@ -55,9 +55,13 @@ cw = str "  "
 hcw :: Widget Name
 hcw = str "[]"
 
-litAttr, unlitAttr :: AttrName
+write :: String -> Widget Name
+write = withAttr fontAttr . str
+
+litAttr, unlitAttr, fontAttr :: AttrName
 litAttr = "litAttr"
 unlitAttr = "unlitAttr"
+fontAttr = "fontAttr"
 
 applyAll :: [a -> a] -> a -> a
 applyAll = foldr (.) id
@@ -115,6 +119,7 @@ theMap :: AttrMap
 theMap = attrMap V.defAttr
   [ (litAttr, V.black `on` V.red)
   , (unlitAttr, V.black `on` V.blue)
+  , (fontAttr, V.white `on` V.black)
   ]
 
 load :: String -> Board
