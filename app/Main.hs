@@ -8,10 +8,8 @@ import qualified Brick.Widgets.Center as C
 import qualified Graphics.Vty as V
 import Control.Monad (void)
 import Data.Matrix
-import qualified Data.Vector as Ve
 import Data.List
 import Data.List.Split
-import Control.Monad.IO.Class
 
 type Name = ()
 data Cell = Lit | Unlit deriving (Eq)
@@ -21,7 +19,7 @@ type Board = Matrix Cell
 data Game = Game { _board :: Board, _pos :: Pos, _levels :: [Board], _level :: Int }
 
 gameOver :: Game -> Bool
-gameOver g@Game{..} = allClear _board && _level == 49
+gameOver Game{..} = allClear _board && _level == 49
 
 allClear :: Board -> Bool
 allClear board = all (== Unlit) (toList board)
@@ -152,4 +150,4 @@ initGame = do
   return $ Game (head levels) (Pos 1 1) levels 0
 
 main :: IO ()
-main = initGame >>= void . (defaultMain lightsOut)
+main = initGame >>= void . defaultMain lightsOut
